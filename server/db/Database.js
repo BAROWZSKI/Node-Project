@@ -1,17 +1,23 @@
 const mongoose = require("mongoose");
-
-let instance = null;
+const UserModel = require("../models/Users");
 
 class Database{
+    static instance;
+
     constructor(){
-        if(!instance){
+        if(Database.instance){
             this.mongoConnection = null;
-            instance = this;
+            Database.instance = this;
         }
-        return instance;
+        return Database.instance;
     }
 
     async connect(options){
+        if (this.mongoConnection) {
+            console.log("Zaten veritabanina bağli.");
+            return;
+        }
+
         try{
             console.log("db connecting");
             let db = await mongoose.connect(options.CONNECTION_STRING);
@@ -22,6 +28,12 @@ class Database{
             process.exit(1);
         }
     }
+
+    get models(){
+        return {
+            User : UserModel,
+        };
+    }
 }
 
-module.exports = Database;
+module.exports = new Database();
