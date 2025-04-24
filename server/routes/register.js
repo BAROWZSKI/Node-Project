@@ -6,6 +6,10 @@ const db = require("../db/Database");
 const User = db.models.User;
 
 router.get("/", (req,res) => {
+    if(req.session.user){
+        // if a user already have a session
+        return res.redirect("/");
+    }
     res.render("register");
 });
 

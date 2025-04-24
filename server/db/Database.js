@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const UserModel = require("../models/Users");
+const UserModel = require("../models/User");
+const BookModel = require("../models/Books");
 
 class Database{
     static instance;
@@ -32,6 +33,7 @@ class Database{
     get models(){
         return {
             User : UserModel,
+            Book : BookModel
         };
     }
 }
